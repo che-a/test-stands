@@ -1,7 +1,6 @@
-## Использование Vagrant
+## Атоматическая настройка тестового стенда при помощи Vagrant
 
 ```ruby
-
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
@@ -16,12 +15,10 @@ Vagrant.configure("2") do |config|
   SHELL
 
 end
-
 ```
 
 
 ```sh
-
 # ~/.ssh/config на хост-системе
 
 Host vagrant-vm
@@ -32,6 +29,5 @@ Host vagrant-vm
         StrictHostKeyChecking no
         # PasswordAuthentication no
         IdentityFile "~/.ssh/vagrant"
-        IdentitiesOnly yes
-        
+        IdentitiesOnly yes        
 ```
