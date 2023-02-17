@@ -34,7 +34,7 @@ mkdir ~/.ssh/keys-test-lab
 ssh-keygen -o -a 256 -t ed25519 -f ~/.ssh/keys-test-lab/dex -C "Test-lab-key-$(hostname)-$(date +'%d-%m-%Y')" -N ''
 ```
 Настройка псевдонимов в файле `~./ssh/config` для большего удобства подключения к виртуальным машинам стенда:
-```
+```sh
 Host srv-master
     HostName 127.0.0.1
     Port 10000
@@ -76,7 +76,7 @@ Host srv-03
 - 2 ЦП  
 - Отключить аудио  
 
-```
+```sh
 # Создание и регистрация ВМ
 VBoxManage createvm \
     --name "srv-master" \
@@ -148,7 +148,7 @@ VBoxManage storageattach "srv-master" \
 ### Настройка гостевой ОС на эталонной ВМ <a name="guest_os_setup"></a>
 
 Действие на хосте:
-```
+```sh
 # копирование в гостевую ОС публичного ключа
 sshpass -p '1234' ssh-copy-id -i ~/.ssh/keys-test-lab/dex.pub srv-master
 
@@ -164,13 +164,13 @@ set timeout=5
 и изменить значение `timeout` на 0.
 
 Для отключения IPv6 необходимо добавить в конец файла `/etc/sysctl.conf` строку:
-```
+```sh
 sudo -s
 echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf
 sysctl -p
 ```
 Для настройки сетевого интерфейса внтуренней сети необходимо в конец файла `/etc/network/interfaces` добавить следующие строки:
-```
+```sh
 allow-hotplug enp0s8
 iface enp0s8 inet static
 address 192.168.0.1
@@ -179,7 +179,7 @@ netmask 255.255.255.0
 broadcast 192.168.0.255
 ```
 И перезапустить службу:
-```
+```sh
 systemctl restart ifup@enp0s8
 ```
 
@@ -189,7 +189,7 @@ apt-get update -y && apt-get upgrade
 apt-get install -y curl htop neofetch mc tree
 ```
 
-```
+```sh
 Host srv-master
     HostName 192.168.0.1
     User dex
