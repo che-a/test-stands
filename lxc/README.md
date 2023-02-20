@@ -1,3 +1,18 @@
+# LXC
+
+## Ссылки на ресурсы
+- https://gudok.xyz/lxcdeb/
+
+## Установка и настройка
+```sh
+apt update && apt upgrade
+
+apt install lxc
+```
+
+
+
+
 ### LXC on deb10
 ```
 
