@@ -1,7 +1,7 @@
 # LXC
 
 ## Ссылки на ресурсы
-- https://gudok.xyz/lxcdeb/
+- [https://gudok.xyz/lxcdeb/](https://gudok.xyz/lxcdeb/)
 
 ## Установка и настройка
 ```sh
