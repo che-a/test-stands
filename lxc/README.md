@@ -1,9 +1,14 @@
-# LXC
+## LXC
+### Содержание
+- [Установка и настройка](#setup)
+  - [Установка и настройка в Debian 11](#setup_debian11)
+- [Использование](#usage)
+- [Ссылки на ресурсы](#links)
 
-## Ссылки на ресурсы
-- [https://gudok.xyz/lxcdeb/](https://gudok.xyz/lxcdeb/)
 
-## Установка и настройка
+### Установка и настройка <a name="setup"></a>
+#### Установка и настройка в Debian 11 <a name="setup_debian11"></a>
+
 ```sh
 apt update && apt upgrade
 
@@ -31,3 +36,6 @@ apt install lxc libvirt0 libpam-cgfs bridge-utils
 # lxc.apparmor.profile = generated
 # lxc.apparmor.allow_nesting = 1
 ```
+
+### Ссылки на ресурсы
+1. [https://gudok.xyz/lxcdeb/](https://gudok.xyz/lxcdeb/)
