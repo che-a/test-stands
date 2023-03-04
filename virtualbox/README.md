@@ -14,7 +14,7 @@
 
 
 ## 1. Введение <a name="intro"></a>
-Тестовый стенд на основе [Debian 11.6](https://www.debian.org/download).
+Тестовый стенд на основе [Debian 11](https://www.debian.org/download).
 
 ![Альтернативный текст](images/scheme_001.png)  
 
