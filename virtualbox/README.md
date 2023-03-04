@@ -16,7 +16,7 @@
 ## 1. Введение <a name="intro"></a>
 Тестовый стенд на основе [Debian 11](https://www.debian.org/download).
 
-![Альтернативный текст](images/scheme_001.png)  
+![Альтернативный текст](images/scheme_002.png)  
 
 
 ## 2. Ручная настройка стенда <a name="manual_setup"></a>
