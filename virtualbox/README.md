@@ -1,48 +1,57 @@
 # Настройка тестового стенда на VirtualBox 
 
 * [Описание стенда](#intro)
-* [Ручная настройка стенда](#manual_setup)
-    * [Настройка хоста](#host_setup)
-    * [Создание эталонной ВМ](#create_ref_vm)
-    * [Установка гостевой ОС на эталонную ВМ](#guest_os_create)
-    * [Настройка гостевой ОС на эталонной ВМ](#guest_os_setup)
-    * [Клонирование виртуальной машины](#clone_ref_vm)
-    * [Настройка виртуальных машин](#guests_setup)
-        - [Настройка мастер-сервера](#master_setup)
-        - [Настройка серверов](#common_setup)
+  * [Виртуальные машины](#vms)
+  * [Схема стенда](#schema)
+  * [Проброс портов для доступа к виртуальным машинам из хост-системы](#nat)   
+* [Настройка стенда](#manual_setup)
+  * [Настройка хоста](#host_setup)
+  * [Создание эталонной ВМ](#create_ref_vm)
+  * [Установка гостевой ОС на эталонную ВМ](#guest_os_create)
+  * [Настройка гостевой ОС на эталонной ВМ](#guest_os_setup)
+  * [Клонирование виртуальной машины](#clone_ref_vm)
+  * [Настройка виртуальных машин](#guests_setup)
+    - [Настройка мастер-сервера](#master_setup)
+    - [Настройка серверов](#common_setup)
 
 
 
-## Введение <a name="intro"></a>
-Тестовый стенд на основе [Debian 11](https://www.debian.org/download).
+## Описание стенда <a name="intro"></a>
+* Тестовый стенд на основе [Debian 11](https://www.debian.org/download).
+* Логин/пароль: `dex`/`1234`
 
-###
+### Виртуальные машины <a name="vms"></a>
+| ВМ      | Роль |
+|---------|:-----|
+|`master` |Мастер-сервер для управления остальными ВМ, ansible-сервер, центр сертификации|
+|`pgpro`  |Сервер СУБД Postgres Pro Standard, хранилище данных для сервера Zabbix, MediaWiki, NextCloud|
+|`pgadmin`|Веб-клиент для управления СУБД PostgreSQL|
+|`zbx`    |Сервер Zabbix, консольный клиент Postgres Pro|
+|`apache` |Веб-сервер, фронтенд для MediaWiki, NextCloud|
+|`nginx`  |Веб-сервер, фронтенд для Zabbix|
 
+### Схема стенда <a name="schema"></a>
 ![Схема стенда](images/scheme_002.png)  
 
-### Проброс портов для доступа к виртуальным машинам из хост-системы
-|ВМ       |Назначение|Протокол|IP хоста |Порт хоста|Адрес гостя|Порт гостя|
-|---------|----------|--------|---------|----------|-----------|----------|
-|`master` |SSH       |TCP     |127.0.0.1|10000     |10.0.2.15  |22        |
-|         |          |        |         |          |           |          |
-|`pgpro`  |SSH       |TCP     |127.0.0.1|10001     |10.0.2.15  |22        |
-|`pgpro`  |Postgres  |TCP     |127.0.0.1|10002     |10.0.2.15  |5432      |
-|         |          |        |         |          |           |          |
-|`pgadmin`|SSH       |TCP     |127.0.0.1|10003     |10.0.2.15  |22        |
-|`pgadmin`|HTTP      |TCP     |127.0.0.1|10004     |10.0.2.15  |80        |
-|`pgadmin`|HTTPS     |TCP     |127.0.0.1|10005     |10.0.2.15  |443       |
-|         |          |        |         |          |           |          |
-|`zbx`    |SSH       |TCP     |127.0.0.1|10006     |10.0.2.15  |22        |
-|         |          |        |         |          |           |          |
-|`apache` |SSH       |TCP     |127.0.0.1|10007     |10.0.2.15  |22        |
-|`apache` |HTTP      |TCP     |127.0.0.1|10008     |10.0.2.15  |80        |
-|`apache` |HTTPS     |TCP     |127.0.0.1|10009     |10.0.2.15  |443       |
-|         |          |        |         |          |           |          |
-|`nginx`  |SSH       |TCP     |127.0.0.1|10010     |10.0.2.15  |22        |
-|`nginx`  |HTTP      |TCP     |127.0.0.1|10011     |10.0.2.15  |80        |
-|`nginx`  |HTTPS     |TCP     |127.0.0.1|10012     |10.0.2.15  |443       |
+### Проброс портов для доступа к виртуальным машинам из хост-системы <a name="nat"></a>
 
-## 2. Ручная настройка стенда <a name="manual_setup"></a>
+|ВМ       |Назначение|Протокол|IP хоста |Порт хоста|IP гостя |Порт гостя|
+|---------|----------|--------|---------|----------|---------|----------|
+|`master` |SSH       |TCP     |127.0.0.1|10000     |10.0.2.15|22        |
+|`pgpro`  |SSH       |TCP     |127.0.0.1|10001     |10.0.2.15|22        |
+|`pgadmin`|SSH       |TCP     |127.0.0.1|10002     |10.0.2.15|22        |
+|`zbx`    |SSH       |TCP     |127.0.0.1|10003     |10.0.2.15|22        |
+|`apache` |SSH       |TCP     |127.0.0.1|10004     |10.0.2.15|22        |
+|`nginx`  |SSH       |TCP     |127.0.0.1|10005     |10.0.2.15|22        |
+|`pgpro`  |Postgres  |TCP     |127.0.0.1|15432     |10.0.2.15|5432      |
+|`pgadmin`|HTTP      |TCP     |127.0.0.2|   80     |10.0.2.15|80        |
+|`pgadmin`|HTTPS     |TCP     |127.0.0.2|  443     |10.0.2.15|443       |
+|`apache` |HTTP      |TCP     |127.0.0.3|   80     |10.0.2.15|80        |
+|`apache` |HTTPS     |TCP     |127.0.0.3|  443     |10.0.2.15|443       |
+|`nginx`  |HTTP      |TCP     |127.0.0.4|   80     |10.0.2.15|80        |
+|`nginx`  |HTTPS     |TCP     |127.0.0.4|  443     |10.0.2.15|443       |
+
+## Настройка стенда <a name="manual_setup"></a>
 
 ### Настройка хоста <a name="host_setup"></a>
 
@@ -58,7 +67,7 @@ ssh-keygen -o -a 256 -t ed25519 -f ~/.ssh/keys-test-lab/dex -C "Test-lab-key-$(h
 ```
 Настройка псевдонимов в файле `~./ssh/config` для большего удобства подключения к виртуальным машинам стенда:
 ```sh
-Host srv-master
+Host master
     HostName 127.0.0.1
     Port 10000
     User dex
@@ -66,7 +75,7 @@ Host srv-master
     StrictHostKeyChecking no
     IdentityFile "~/.ssh/keys-test-lab/dex"
 
-Host srv-01
+Host pgpro
     HostName 127.0.0.1
     Port 10001
     User dex
@@ -74,7 +83,7 @@ Host srv-01
     StrictHostKeyChecking no
     IdentityFile "~/.ssh/keys-test-lab/dex"
 
-Host srv-02
+Host pgadmin
     HostName 127.0.0.1
     Port 10002
     User dex
@@ -82,13 +91,30 @@ Host srv-02
     StrictHostKeyChecking no
     IdentityFile "~/.ssh/keys-test-lab/dex"
 
-Host srv-03
+Host zbx
     HostName 127.0.0.1
     Port 10003
     User dex
     UserKnownHostsFile /dev/null
     StrictHostKeyChecking no
     IdentityFile "~/.ssh/keys-test-lab/dex"
+
+Host apache
+    HostName 127.0.0.1
+    Port 10002
+    User dex
+    UserKnownHostsFile /dev/null
+    StrictHostKeyChecking no
+    IdentityFile "~/.ssh/keys-test-lab/dex"
+
+Host nginx
+    HostName 127.0.0.1
+    Port 10003
+    User dex
+    UserKnownHostsFile /dev/null
+    StrictHostKeyChecking no
+    IdentityFile "~/.ssh/keys-test-lab/dex"
+
 ```
 
 ### Создание эталонной ВМ <a name="create_ref_vm"></a>
