@@ -235,7 +235,13 @@ systemctl restart ifup@enp0s8
 Установка дополнительных пакетов:
 ```sh
 apt-get update -y && apt-get upgrade
-apt-get install -y curl htop neofetch mc tree
+apt-get install -y \
+    bat \
+    curl \
+    htop \
+    neofetch \
+    mc \
+    tree
 ```
 
 ```sh
